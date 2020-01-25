@@ -1,8 +1,5 @@
 {
     "DiscordClient" : {
-        "api_url" : "http://localhost:3000/",
-        "message_api_url" : "http://localhost:3000/message",
-        "callback_url_base" : "http://localhost",
         "callback_url_port" : 3003,
         "triggers" : ["!"],
         "aliases" : ["superbot", "sb", "smb"]

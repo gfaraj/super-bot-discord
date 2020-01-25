@@ -4,6 +4,7 @@ const express = require('express');
 const mime = require('mime-types');
 const path = require('path');
 const discordBotkit = require('botkit-discord');
+const os = require('os');
 
 require('dotenv').config();
 const options = config.get('DiscordClient');
@@ -19,8 +20,8 @@ let callbackUrl = '';
 
 function startCallbackServer() {
     const route = '/message';
-    const port = options.callback_url_port || 3001;
-    callbackUrl = `${options.callback_url_base}:${port}${route}`;
+    const port = options.callback_url_port || 3003;
+    callbackUrl = `http://${os.hostname()}:${port}${route}`;
 
     const server = express();
     server.use(express.json({ limit: '20mb' }));
@@ -213,7 +214,7 @@ async function onMessageReceived(bot, message) {
             botMessage.callbackUrl = callbackUrl;
 
             console.log(`Sending to bot: ${inspectMessage(botMessage)}`);
-            let response = await axios.post(options.message_api_url, botMessage);
+            let response = await axios.post(process.env.SUPERBOT_URL, botMessage);
             
             if (response.status == 200) {
                 console.log(`Received back: ${inspectMessage(response.data)}`);
@@ -237,7 +238,7 @@ async function onMessageReceived(bot, message) {
 }
 
 discordBot.on('direct_message, ambient', async function (b, message) {
-    console.log(`Received: ${inspectMessage(message)}`);
+    //console.log(`Received: ${inspectMessage(message)}`);
     bot = b;
     
     try {
