@@ -9,8 +9,10 @@ const os = require('os');
 require('dotenv').config();
 const options = config.get('DiscordClient');
 
+const superbotUrl = process.env.SUPERBOT_URL || 'http://localhost:3000/message';
+
 let configuration = {
-	token: process.env.botToken
+	token: process.env.BOT_TOKEN
 };
 
 const discordBot = discordBotkit(configuration);
@@ -214,7 +216,7 @@ async function onMessageReceived(bot, message) {
             botMessage.callbackUrl = callbackUrl;
 
             console.log(`Sending to bot: ${inspectMessage(botMessage)}`);
-            let response = await axios.post(process.env.SUPERBOT_URL, botMessage);
+            let response = await axios.post(superbotUrl, botMessage);
             
             if (response.status == 200) {
                 console.log(`Received back: ${inspectMessage(response.data)}`);
