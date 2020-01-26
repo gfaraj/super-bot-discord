@@ -18,12 +18,15 @@ let configuration = {
 const discordBot = discordBotkit(configuration);
 let bot = null;
 
-let callbackUrl = '';
+let callbackUrl = process.env.CALLBACK_URL;
 
 function startCallbackServer() {
     const route = '/message';
     const port = options.callback_url_port || 3003;
-    callbackUrl = `http://${os.hostname()}:${port}${route}`;
+
+    if (!callbackUrl) {
+        callbackUrl = `http://${os.hostname()}:${port}${route}`;
+    }
 
     const server = express();
     server.use(express.json({ limit: '20mb' }));
@@ -261,7 +264,34 @@ discordBot.on('direct_message, ambient', async function (b, message) {
         });
     }
     catch(error) {
-        console.log(`Error when parsing slack message: ${error}`, error.stack);
-        await sendTextMessage(message.channel, 'Error: could not parse Slack message.', message);
+        console.log(`Error when parsing Discord message: ${error}`, error.stack);
+        await sendTextMessage(message.channel, 'Error: could not parse Discord message.', message);
+    }
+});
+
+discordBot.on('direct_mention, mention', async function (b, message) {
+    //console.log(`Received: ${inspectMessage(message)}`);
+    bot = b;
+    
+    try {
+        await onMessageReceived(bot, {
+            originalMessage: message,
+            sender : {
+                id: message.user.id,
+                name: message.user.username || message.user,
+                isMe: false
+            },
+            chat: {
+                id: message.channel.id,
+                name: message.channel.name
+            },
+            type: message.type,
+            text: `!natural ${(message.text ? message.text.substring(message.text.indexOf('>') + 1) : '')}`,
+            attachments: message.attachments,
+        });
+    }
+    catch(error) {
+        console.log(`Error when parsing Discord message: ${error}`, error.stack);
+        await sendTextMessage(message.channel, 'Error: could not parse Discord message.', message);
     }
 });

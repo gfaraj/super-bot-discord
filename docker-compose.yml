@@ -4,10 +4,12 @@ services:
   super-bot-discord:
     image: gfaraj/super-bot-discord:latest
     build: .
+    hostname: superbotdiscord
     env_file: 
       - .env
     environment:
       NODE_ENV: production
       SUPERBOT_URL: http://host.docker.internal:3000/message
+      CALLBACK_URL: http://localhost:3003/message
     ports:
       - "3003:3003"
