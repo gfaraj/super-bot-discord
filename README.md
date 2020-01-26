@@ -49,3 +49,17 @@ npm run start
 ## Configuration
 
 The client uses a JSON configuration file located in the ./config folder. See the [config](https://docs.npmjs.com/cli/config) package documentation for more information. You will also need to provide an environment variable called BOT_TOKEN either through the command-line or by creating an .env file. See the included .env.example file.
+
+## Demo
+
+Here are some demos of the bot responding through Discord (refer back to [super-bot](https://github.com/gfaraj/super-bot) for information about available commands):
+
+<img src="https://imgur.com/4AlBCVw.jpg" width="300" height="588" /> <img src="https://imgur.com/uyYjKRI.jpg" width="300" height="588" />
+
+Record any number of custom factoids and then you can replay them randomly for fun:
+
+<img src="https://imgur.com/nHkef6X.jpg" width="300" height="588" />
+
+When using an @ mention on the bot, it will read what you sent as a natural language query. The natural language plug-in currently uses Google Dialogflow to respond. You can configure the Agent in any way you want and send queries through super-bot:
+
+<img src="https://imgur.com/8XoMJgX.jpg" width="300" height="588" />
