@@ -13,10 +13,10 @@ docker run gfaraj/super-bot-discord
 You will need to specify a couple of environment variables so that the discord client can successfully sign in as your bot user, and so that it knows where the [super-bot service](https://github.com/gfaraj/super-bot) is located:
 
 ```
-docker run --env SUPERBOT_URL=http://localhost:3000/message --env BOT_TOKEN=yourdiscordbottoken gfaraj/super-bot-discord
+docker run --env SUPERBOT_URL=http://MY_MACHINE:3000/message --env BOT_TOKEN=yourdiscordbottoken gfaraj/super-bot-discord
 ```
 
-You can also use the --env-file parameter if needed. The github repository also contains a couple of docker-compose files to aid in setting up a container for this app.
+The SUPERBOT_URL variable defaults to "http://localhost:3000/message" if not set. You can also use the --env-file parameter if needed. The github repository also contains a couple of docker-compose files to aid in setting up a container for this app.
 
 ```
 docker-compose up
