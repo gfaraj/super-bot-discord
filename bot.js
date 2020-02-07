@@ -18,20 +18,16 @@ let configuration = {
 const discordBot = discordBotkit(configuration);
 let bot = null;
 
-let callbackUrl = process.env.CALLBACK_URL;
+const callbackRoute = '/api/message';
+const callbackPort = process.env.CALLBACK_PORT || 3003;
+const callbackHost = process.env.CALLBACK_HOST || 'localhost';
+const callbackUrl = `http://${callbackHost}:${callbackPort}${callbackRoute}`;
 
 function startCallbackServer() {
-    const route = '/message';
-    const port = options.callback_url_port || 3003;
-
-    if (!callbackUrl) {
-        callbackUrl = `http://${os.hostname()}:${port}${route}`;
-    }
-
     const server = express();
     server.use(express.json({ limit: '20mb' }));
 
-    server.post(route, async (req, res) => {
+    server.post(callbackRoute, async (req, res) => {
         try {
             console.log(`Bot Sent: ${inspectMessage(req.body)}`);
 
@@ -42,7 +38,7 @@ function startCallbackServer() {
         }
     });
 
-    server.listen(port, () => {
+    server.listen(callbackPort, () => {
         console.log(`Listening on ${callbackUrl}...`);
     });
 }

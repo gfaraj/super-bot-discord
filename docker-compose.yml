@@ -10,6 +10,6 @@ services:
     environment:
       NODE_ENV: production
       SUPERBOT_URL: http://host.docker.internal:3000/message
-      CALLBACK_URL: http://localhost:3003/message
+      CALLBACK_HOST: localhost
     ports:
       - "3003:3003"
