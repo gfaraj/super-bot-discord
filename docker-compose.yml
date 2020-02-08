@@ -5,6 +5,7 @@ services:
     image: gfaraj/super-bot-discord:latest
     build: .
     hostname: superbotdiscord
+    restart: always
     env_file: 
       - .env
     environment:
